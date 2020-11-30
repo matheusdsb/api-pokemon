@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes} = require('sequelize');
 require('dotenv').config({ path: '../docker/.env' })
+const loadPokemon = require('./models/pokemon')
 
 const sequelize = new Sequelize({
     dialect: 'mssql',
@@ -17,22 +18,6 @@ const sequelize = new Sequelize({
     }
 });
 
-const Pokemon = sequelize.define('Pokemon', {
-    id: {
-        type: DataTypes.NUMBER,
-        primaryKey: true
-    },
-    tipo: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    treinador: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    nivel: {
-        type: DataTypes.NUMBER
-    }
-});
+const Pokemon = loadPokemon(sequelize, DataTypes)
 
-module.exports = sequelize;
+module.exports = { sequelize, Pokemon }
