@@ -1,17 +1,12 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const router = require('./router')
 const sequelize = require('./sequelize')
+const apiPokemon = require('./apis/pokemon.api')
 
 const app = express()
-app.use(bodyParser.json())
-app.use('/', router)
 
-try {
-    sequelize.authenticate();
-    console.log('Connection has been established successfully.');
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
-  }
+app.use(bodyParser.json())
+
+apiPokemon(app, sequelize)
 
 module.exports = app
