@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+
+  database:    
+    image: ${PROJECT_NAME}_database
+    container_name: ${PROJECT_NAME}_database
+    env_file: .env
+    build:
+      context: .
+      dockerfile: ./Dockerfile    
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: ${DATABASE_PASSWORD}
+      MSSQL_PID: Developer
+    ports:
+      - "${DATABASE_PORT}:${DATABASE_PORT}"
+    networks:
+      - mssql-server-compose-network
+
+networks: 
+    mssql-server-compose-network:
+      driver: bridge 
