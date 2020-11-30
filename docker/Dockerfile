@@ -1,4 +1,4 @@
-FROM microsoft/mssql-server-linux:latest
+FROM mcr.microsoft.com/mssql/server:2017-CU8-ubuntu
 
 COPY ./init.sql .
 COPY ./entrypoint.sh .
