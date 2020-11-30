@@ -11,7 +11,7 @@ services:
       dockerfile: ./Dockerfile    
     environment:
       ACCEPT_EULA: Y
-      SA_PASSWORD: ${DATABASE_PASSWORD}
+      MSSQL_SA_PASSWORD: ${DATABASE_PASSWORD}
       MSSQL_PID: Developer
     ports:
       - "${DATABASE_PORT}:${DATABASE_PORT}"
