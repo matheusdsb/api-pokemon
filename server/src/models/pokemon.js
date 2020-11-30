@@ -2,7 +2,8 @@ module.exports = (sequelize, DataTypes) => {
     const Pokemon = sequelize.define('Pokemon', {
         id: {
             type: DataTypes.NUMBER,
-            primaryKey: true
+            primaryKey: true,
+            autoIncrement: true
         },
         tipo: {
             type: DataTypes.STRING(50),
