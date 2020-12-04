@@ -1,0 +1,10 @@
+{
+    "POKEMON_VALIDO" : { 
+        "tipo": "mewtwo",
+        "treinador": "Matheus Sabino"
+    },
+    "POKEMON_INVALIDO" : { 
+        "tipo": "bulbasauro",
+        "treinador": "Matheus Sabino"
+    }    
+}
