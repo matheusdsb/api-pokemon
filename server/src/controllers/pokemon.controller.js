@@ -4,9 +4,12 @@ const {
     validarDadosCriacao, 
     validarDadosEdicao
 } = require('../helpers/pokemon.helper')
-
+const CustomError = require('../erros/custom.error')
 
 module.exports = (sequelize) => {
+
+    const dao = require('../dao/pokemon.dao')(sequelize)
+
     const listar = async(req, res) => {
         try {              
             const { Pokemon } = sequelize
@@ -20,14 +23,8 @@ module.exports = (sequelize) => {
     const cadastrar = async(req, res) => {
         try {
             const input = carregarDadosRequest(req.body)
-            validarDadosCriacao(input)
-
-            const { Pokemon } = sequelize
-            const pokemon = await Pokemon.create({
-                tipo: input.tipo,
-                treinador: input.treinador,
-                nivel: 1
-            })
+            validarDadosCriacao(input)            
+            const pokemon = await dao.cadastrar(input)
             res.json(pokemon)
         } catch(e) {
             res.status(400).send(e.message)
@@ -41,13 +38,8 @@ module.exports = (sequelize) => {
             if(!id) {
                 res.status(404).send('ID do pokemon não informado')
             }
-
-            const { Pokemon } = sequelize
-            const pokemon = await Pokemon.findByPk(id)
-
-            if(!pokemon) {
-                res.status(404).send('Pokemon não encontrado')
-            }
+            
+            const pokemon =  await dao.listaPorIdOuLancaExcecao(id)
 
             const input = carregarDadosRequest(req.body)
             validarDadosEdicao(input)
@@ -56,24 +48,19 @@ module.exports = (sequelize) => {
 
             res.status(204).send()
 
-        } catch(e) {
-            res.status(400).send(e.message)
+        } catch(error) {
+            if (error instanceof CustomError) {
+                res.status(error.statusCode).send(error.message)    
+            }
+            res.status(400).send(error.message)   
         }
     }
 
     const deletar = async(req, res) => {
         try {
-            const id = req.params.id
-
-            const { Pokemon } = sequelize
-            await Pokemon.destroy({
-                where: {
-                    id: id
-                }
-            })
-
+            const id = req.params.id            
+            await dao.deletarPorId(id)
             res.status(204).send()
-
         } catch(e) {
             res.status(400).send(e.message)
         }
@@ -82,18 +69,13 @@ module.exports = (sequelize) => {
     const carregar = async(req, res) => {
         try {
             const id = req.params.id
-
-            const { Pokemon } = sequelize
-            const pokemon = await Pokemon.findByPk(id)
-
-            if(!pokemon) {
-                res.status(404).send('Pokemon não encontrado')
-            }
-
+            const pokemon = await dao.listaPorIdOuLancaExcecao(id)
             res.json(pokemon)
-
-        } catch(e) {
-            res.status(400).send(e.message)
+        } catch(error) {
+            if (error instanceof CustomError) {
+                res.status(error.statusCode).send(error.message)    
+            }
+            res.status(400).send(error.message)            
         }
     }
 
