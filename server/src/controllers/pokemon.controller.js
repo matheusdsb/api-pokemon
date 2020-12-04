@@ -6,19 +6,21 @@ const {
 } = require('../helpers/pokemon.helper')
 const CustomError = require('../erros/custom.error')
 
+
 module.exports = (sequelize) => {
 
     const dao = require('../dao/pokemon.dao')(sequelize)
-
-    const listar = async(req, res) => {
-        try {              
+    
+    const listar = async(req, res) => {       
+        try {                          
             const { Pokemon } = sequelize
             const lista = await Pokemon.findAll()
             res.json(lista)
         } catch(e) {
             res.status(400).send(e.message)
-        }
+        }         
     }
+    
 
     const cadastrar = async(req, res) => {
         try {
