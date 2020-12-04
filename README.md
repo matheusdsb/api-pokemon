@@ -19,3 +19,7 @@ Na raíz do projeto, vá até a pasta server e execute `npm install` para instal
 Na raíz do projeto, vá até a pasta server e execute `npm run swagger-autogen` para gerar a documentação. 
 
 Para visualizar a documentação, acesso o o endereço [http://localhost:3001/doc/](http://localhost:3001/doc/) em seu navegador.
+
+## Rodando casos de testes
+
+Na raíz do projeto, vá até a pasta server e execute `npm test` para executar todos casos de teste 
